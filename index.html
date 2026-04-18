@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camble — Live is Unpredictable</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; color: #fff; overflow-x: hidden; }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; position: fixed; width: 100%; z-index: 100; background: rgba(10,10,15,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .logo { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 15px; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .btn-nav { background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff !important; padding: 10px 24px; border-radius: 50px; font-weight: 600; font-size: 14px !important; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 40px 80px; position: relative; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(168,85,247,0.15) 0%, transparent 70%); }
+  .hero-badge { display: inline-block; background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3); color: #c084fc; padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 500; margin-bottom: 24px; }
+  h1 { font-size: clamp(42px, 8vw, 80px); font-weight: 900; line-height: 1.05; margin-bottom: 24px; }
+  h1 span { background: linear-gradient(135deg, #a855f7, #ec4899, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-sub { font-size: 20px; color: rgba(255,255,255,0.55); max-width: 560px; margin: 0 auto 48px; line-height: 1.6; }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; padding: 16px 36px; border-radius: 50px; font-size: 16px; font-weight: 700; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 0 40px rgba(168,85,247,0.4); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(168,85,247,0.6); }
+  .btn-ghost { border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 16px 36px; border-radius: 50px; font-size: 16px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.4); }
+
+  /* STATS */
+  .stats { display: flex; justify-content: center; gap: 60px; padding: 60px 40px; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 40px; font-weight: 900; background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-label { color: rgba(255,255,255,0.4); font-size: 14px; margin-top: 4px; }
+
+  /* FEATURES */
+  .features { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+  .section-label { color: #a855f7; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; margin-bottom: 60px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 32px; transition: border-color 0.2s, transform 0.2s; }
+  .card:hover { border-color: rgba(168,85,247,0.4); transform: translateY(-4px); }
+  .card-icon { font-size: 32px; margin-bottom: 16px; }
+  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .card p { color: rgba(255,255,255,0.45); font-size: 14px; line-height: 1.7; }
+
+  /* STREAMERS */
+  .streamers { padding: 100px 60px; background: rgba(168,85,247,0.04); }
+  .streamers-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .payout-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 40px; }
+  .payout-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .payout-row:last-child { border-bottom: none; }
+  .payout-label { color: rgba(255,255,255,0.5); font-size: 14px; }
+  .payout-value { font-weight: 700; color: #c084fc; font-size: 18px; }
+  .payout-value.green { color: #4ade80; }
+
+  /* CTA */
+  .cta { padding: 120px 40px; text-align: center; position: relative; }
+  .cta-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(168,85,247,0.12) 0%, transparent 70%); }
+  .cta h2 { font-size: clamp(36px, 6vw, 60px); font-weight: 900; margin-bottom: 20px; }
+  .cta p { color: rgba(255,255,255,0.5); font-size: 18px; margin-bottom: 48px; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">CAMBLE</div>
+  <div class="nav-links">
+    <a href="#">Стримерам</a>
+    <a href="#">Как работает</a>
+    <a href="#">Цены</a>
+    <a href="#" class="btn-nav">Начать стримить</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div style="position:relative">
+    <div class="hero-badge">🔴 LIVE — 12,847 стримеров онлайн</div>
+    <h1>Живой момент<br><span>не предсказуем</span></h1>
+    <p class="hero-sub">Платформа где зрители дарят подарки, ставят цели и создают магию прямо в эфире</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">🎬 Начать стримить</a>
+      <a href="#" class="btn-ghost">Смотреть стримы</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat-item"><div class="stat-num">60%</div><div class="stat-label">доход стримера</div></div>
+  <div class="stat-item"><div class="stat-num">$1 = 100</div><div class="stat-label">кристаллов</div></div>
+  <div class="stat-item"><div class="stat-num">50K+</div><div class="stat-label">стримеров</div></div>
+  <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">поддержка</div></div>
+</div>
+
+<section class="features">
+  <div class="section-label">Возможности</div>
+  <div class="section-title">Всё для твоего роста</div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">💎</div><h3>Кристаллы</h3><p>Зрители покупают кристаллы и дарят тебе. Выводи деньги когда удобно.</p></div>
+    <div class="card"><div class="card-icon">🎁</div><h3>Wishlist</h3><p>Составь список желаний — зрители исполняют за кристаллы прямо в эфире.</p></div>
+    <div class="card"><div class="card-icon">🎯</div><h3>Челленджи</h3><p>Ставь цели на стрим. Достиг — получаешь бонус, зрители — незабываемый момент.</p></div>
+    <div class="card"><div class="card-icon">🔒</div><h3>1-на-1</h3><p>Личные звонки со зрителями по твоей цене. Полный контроль расписания.</p></div>
+    <div class="card"><div class="card-icon">👑</div><h3>VIP статусы</h3><p>Bronze → Diamond → King. Топ-типер месяца получает корону в твоём чате.</p></div>
+    <div class="card"><div class="card-icon">🚀</div><h3>Агентства</h3><p>Работай через агентство или напрямую. Camble платит честно в любом случае.</p></div>
+  </div>
+</section>
+
+<section class="streamers">
+  <div class="streamers-inner">
+    <div>
+      <div class="section-label">Стримерам</div>
+      <div class="section-title">Зарабатывай до 75%</div>
+      <p style="color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:32px">Начинаешь с 60%. Растёшь — растёт и твой процент. Три критерия: часы, объём, эксклюзивность.</p>
+      <a href="#" class="btn-primary">Стать стримером →</a>
+    </div>
+    <div class="payout-box">
+      <div class="payout-row"><span class="payout-label">Базовый сплит</span><span class="payout-value">60%</span></div>
+      <div class="payout-row"><span class="payout-label">40+ часов в неделю</span><span class="payout-value">+5%</span></div>
+      <div class="payout-row"><span class="payout-label">$1000+ в неделю</span><span class="payout-value">+5%</span></div>
+      <div class="payout-row"><span class="payout-label">Эксклюзивность</span><span class="payout-value">+5%</span></div>
+      <div class="payout-row"><span class="payout-label">Максимальный сплит</span><span class="payout-value green">75% 🔥</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div style="position:relative">
+    <h2>Camble with me</h2>
+    <p>Присоединяйся к тысячам стримеров которые уже зарабатывают</p>
+    <a href="#" class="btn-primary">🎬 Начать бесплатно</a>
+  </div>
+</section>
+
+<footer>© 2026 Camble. All rights reserved.</footer>
+
+</body>
+</html>
